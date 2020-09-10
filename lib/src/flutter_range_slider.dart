@@ -102,7 +102,8 @@ class RangeSlider extends StatefulWidget {
     this.valueIndicatorMaxDecimals = 1,
     this.valueIndicatorFormatter,
     this.allowThumbOverlap = false,
-  })  : assert(min != null),
+  })
+      : assert(min != null),
         assert(max != null),
         assert(min <= max),
         assert(divisions == null || divisions > 0),
@@ -317,9 +318,9 @@ class RangeSlider extends StatefulWidget {
 class _RangeSliderState extends State<RangeSlider>
     with TickerProviderStateMixin {
   static const Duration kEnableAnimationDuration =
-      const Duration(milliseconds: 75);
+  const Duration(milliseconds: 75);
   static const Duration kValueIndicatorAnimationDuration =
-      const Duration(milliseconds: 100);
+  const Duration(milliseconds: 100);
 
   // Animation controller that is run when the overlay (a.k.a radial reaction)
   // is shown in response to user interaction.
@@ -414,15 +415,15 @@ class _RangeSliderState extends State<RangeSlider>
 
   static const double _defaultTrackHeight = 2.0;
   static const SliderTrackShape _defaultTrackShape =
-      RectangularSliderTrackShape();
+  RectangularSliderTrackShape();
   static const SliderTickMarkShape _defaultTickMarkShape =
-      RoundSliderTickMarkShape();
+  RoundSliderTickMarkShape();
   static const SliderComponentShape _defaultOverlayShape =
-      RoundSliderOverlayShape();
+  RoundSliderOverlayShape();
   static const SliderComponentShape _defaultThumbShape =
-      RoundSliderThumbShape();
+  RoundSliderThumbShape();
   static const SliderComponentShape _defaultValueIndicatorShape =
-      PaddleSliderValueIndicatorShape();
+  PaddleSliderValueIndicatorShape();
   static const ShowValueIndicator _defaultShowValueIndicator =
       ShowValueIndicator.onlyForDiscrete;
 
@@ -437,7 +438,7 @@ class _RangeSliderState extends State<RangeSlider>
     sliderTheme = sliderTheme.copyWith(
       trackHeight: sliderTheme.trackHeight ?? _defaultTrackHeight,
       activeTrackColor:
-          sliderTheme.activeTrackColor ?? theme.colorScheme.primary,
+      sliderTheme.activeTrackColor ?? theme.colorScheme.primary,
       inactiveTrackColor: sliderTheme.inactiveTrackColor ??
           theme.colorScheme.primary.withOpacity(0.24),
       disabledActiveTrackColor: sliderTheme.disabledActiveTrackColor ??
@@ -451,23 +452,23 @@ class _RangeSliderState extends State<RangeSlider>
       disabledActiveTickMarkColor: sliderTheme.disabledActiveTickMarkColor ??
           theme.colorScheme.onPrimary.withOpacity(0.12),
       disabledInactiveTickMarkColor:
-          sliderTheme.disabledInactiveTickMarkColor ??
-              theme.colorScheme.onSurface.withOpacity(0.12),
+      sliderTheme.disabledInactiveTickMarkColor ??
+          theme.colorScheme.onSurface.withOpacity(0.12),
       thumbColor: sliderTheme.thumbColor ?? theme.colorScheme.primary,
       disabledThumbColor: sliderTheme.disabledThumbColor ??
           theme.colorScheme.onSurface.withOpacity(0.38),
       overlayColor: sliderTheme.overlayColor ??
           theme.colorScheme.primary.withOpacity(0.12),
       valueIndicatorColor:
-          sliderTheme.valueIndicatorColor ?? theme.colorScheme.primary,
+      sliderTheme.valueIndicatorColor ?? theme.colorScheme.primary,
       trackShape: sliderTheme.trackShape ?? _defaultTrackShape,
       tickMarkShape: sliderTheme.tickMarkShape ?? _defaultTickMarkShape,
       thumbShape: sliderTheme.thumbShape ?? _defaultThumbShape,
       overlayShape: sliderTheme.overlayShape ?? _defaultOverlayShape,
       valueIndicatorShape:
-          sliderTheme.valueIndicatorShape ?? _defaultValueIndicatorShape,
+      sliderTheme.valueIndicatorShape ?? _defaultValueIndicatorShape,
       showValueIndicator:
-          sliderTheme.showValueIndicator ?? _defaultShowValueIndicator,
+      sliderTheme.showValueIndicator ?? _defaultShowValueIndicator,
       valueIndicatorTextStyle: sliderTheme.valueIndicatorTextStyle ??
           theme.textTheme.body2.copyWith(
             color: theme.colorScheme.onPrimary,
@@ -547,8 +548,8 @@ class _RangeSliderRenderObjectWidget extends LeafRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(
-      BuildContext context, _RenderRangeSlider renderObject) {
+  void updateRenderObject(BuildContext context,
+      _RenderRangeSlider renderObject) {
     renderObject
       ..lowerValue = lowerValue
       ..upperValue = upperValue
@@ -634,7 +635,7 @@ class _RenderRangeSlider extends RenderBox {
   static const double _preferredTotalWidth =
       _preferredTrackWidth + 2 * _overlayDiameter;
   static final Tween<double> _overlayRadiusTween =
-      Tween<double>(begin: 0.0, end: _overlayRadius);
+  Tween<double>(begin: 0.0, end: _overlayRadius);
 
   // -------------------------------------------------
   // Instance specific properties
@@ -979,7 +980,8 @@ class _RenderRangeSlider extends RenderBox {
   void _paintOverlay(Canvas canvas) {
     if (!_overlayAnimation.isDismissed &&
         _previousActiveThumb != _ActiveThumb.none) {
-      final Paint overlayPaint = Paint()..color = _sliderTheme.overlayColor;
+      final Paint overlayPaint = Paint()
+        ..color = _sliderTheme.overlayColor;
       final double radius = _overlayRadiusTween.evaluate(_overlayAnimation);
 
       // We need to find the position of the overlay % active thumb
@@ -1029,9 +1031,9 @@ class _RenderRangeSlider extends RenderBox {
 
   void _paintThumbs(PaintingContext context, Offset offset) {
     final Offset thumbLowerCenter =
-        Offset(_thumbLeftPosition, _trackVerticalCenter);
+    Offset(_thumbLeftPosition, _trackVerticalCenter);
     final Offset thumbUpperCenter =
-        Offset(_thumbRightPosition, _trackVerticalCenter);
+    Offset(_thumbRightPosition, _trackVerticalCenter);
     final double thumbRadius = _thumbRadius;
 
     _thumbLowerRect =
@@ -1041,29 +1043,35 @@ class _RenderRangeSlider extends RenderBox {
 
     // Paint the thumbs, via the Theme
     _sliderTheme.thumbShape.paint(
-      context,
-      thumbLowerCenter,
-      isDiscrete: (_divisions != null),
-      parentBox: this,
-      sliderTheme: _sliderTheme,
-      value: _lowerValue,
-      enableAnimation: _enableAnimation,
-      activationAnimation: _valueIndicatorAnimation,
-      labelPainter: _valueIndicatorPainter,
-      textDirection: TextDirection.ltr,
+        context,
+        thumbLowerCenter,
+        isDiscrete: (_divisions != null),
+        parentBox: this,
+        sliderTheme: _sliderTheme,
+        value: _lowerValue,
+        enableAnimation: _enableAnimation,
+        activationAnimation: _valueIndicatorAnimation,
+        labelPainter: _valueIndicatorPainter,
+        textDirection: TextDirection.ltr,
+        sizeWithOverflow: MediaQuery
+            .of(context)
+            .size
     );
 
     _sliderTheme.thumbShape.paint(
-      context,
-      thumbUpperCenter,
-      isDiscrete: (_divisions != null),
-      parentBox: this,
-      sliderTheme: _sliderTheme,
-      value: _upperValue,
-      enableAnimation: _enableAnimation,
-      activationAnimation: _valueIndicatorAnimation,
-      labelPainter: _valueIndicatorPainter,
-      textDirection: TextDirection.ltr,
+        context,
+        thumbUpperCenter,
+        isDiscrete: (_divisions != null),
+        parentBox: this,
+        sliderTheme: _sliderTheme,
+        value: _upperValue,
+        enableAnimation: _enableAnimation,
+        activationAnimation: _valueIndicatorAnimation,
+        labelPainter: _valueIndicatorPainter,
+        textDirection: TextDirection.ltr,
+        sizeWithOverflow: MediaQuery
+            .of(context)
+            .size
     );
   }
 
@@ -1115,16 +1123,20 @@ class _RenderRangeSlider extends RenderBox {
 
         // Ask the SliderTheme to paint the valueIndicator
         _sliderTheme.valueIndicatorShape.paint(
-          context,
-          thumbCenter,
-          activationAnimation: _valueIndicatorAnimation,
-          enableAnimation: _enableAnimation,
-          isDiscrete: (_divisions != null),
-          labelPainter: _valueIndicatorPainter,
-          parentBox: this,
-          sliderTheme: _sliderTheme,
-          value: value,
-          textDirection: TextDirection.ltr,
+            context,
+            thumbCenter,
+            activationAnimation: _valueIndicatorAnimation,
+            enableAnimation: _enableAnimation,
+            isDiscrete: (_divisions != null),
+            labelPainter: _valueIndicatorPainter,
+            parentBox: this,
+            sliderTheme: _sliderTheme,
+            value: value,
+            textDirection: TextDirection.ltr,
+            sizeWithOverflow: MediaQuery
+                .of(context)
+                .size
+
         );
       }
     }
