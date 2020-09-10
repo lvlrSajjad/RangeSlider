@@ -102,8 +102,7 @@ class RangeSlider extends StatefulWidget {
     this.valueIndicatorMaxDecimals = 1,
     this.valueIndicatorFormatter,
     this.allowThumbOverlap = false,
-  })
-      : assert(min != null),
+  })  : assert(min != null),
         assert(max != null),
         assert(min <= max),
         assert(divisions == null || divisions > 0),
@@ -548,13 +547,12 @@ class _RangeSliderRenderObjectWidget extends LeafRenderObjectWidget {
   }
 
   @override
-  void updateRenderObject(BuildContext context,
-      _RenderRangeSlider renderObject) {
+  void updateRenderObject(
+      BuildContext context, _RenderRangeSlider renderObject) {
     renderObject
       ..lowerValue = lowerValue
       ..upperValue = upperValue
       ..divisions = divisions
-      ..screenSize = screenSize
       ..onChanged = onChanged
       ..onChangeStart = onChangeStart
       ..onChangeEnd = onChangeEnd
@@ -576,7 +574,6 @@ class _RenderRangeSlider extends RenderBox {
     double lowerValue,
     double upperValue,
     int divisions,
-    Size screenSize,
     RangeSliderCallback onChanged,
     RangeSliderCallback onChangeStart,
     RangeSliderCallback onChangeEnd,
@@ -590,7 +587,6 @@ class _RenderRangeSlider extends RenderBox {
   }) {
     // Initialization
     this.divisions = divisions;
-    this.screenSize = screenSize;
     this.lowerValue = lowerValue;
     this.upperValue = upperValue;
     this.onChanged = onChanged;
@@ -650,7 +646,6 @@ class _RenderRangeSlider extends RenderBox {
   double _lowerValue;
   double _upperValue;
   int _divisions;
-  Size _screenSize;
   Animation<double> _overlayAnimation;
   Animation<double> _enableAnimation;
   Animation<double> _valueIndicatorAnimation;
@@ -688,11 +683,6 @@ class _RenderRangeSlider extends RenderBox {
     _divisions = value;
 
     // If we change the value, we need to repaint
-    markNeedsPaint();
-  }
-
-  set screenSize(Size value) {
-    _screenSize = value;
     markNeedsPaint();
   }
 
@@ -989,8 +979,7 @@ class _RenderRangeSlider extends RenderBox {
   void _paintOverlay(Canvas canvas) {
     if (!_overlayAnimation.isDismissed &&
         _previousActiveThumb != _ActiveThumb.none) {
-      final Paint overlayPaint = Paint()
-        ..color = _sliderTheme.overlayColor;
+      final Paint overlayPaint = Paint()..color = _sliderTheme.overlayColor;
       final double radius = _overlayRadiusTween.evaluate(_overlayAnimation);
 
       // We need to find the position of the overlay % active thumb
@@ -1052,31 +1041,29 @@ class _RenderRangeSlider extends RenderBox {
 
     // Paint the thumbs, via the Theme
     _sliderTheme.thumbShape.paint(
-        context,
-        thumbLowerCenter,
-        isDiscrete: (_divisions != null),
-        parentBox: this,
-        sliderTheme: _sliderTheme,
-        value: _lowerValue,
-        enableAnimation: _enableAnimation,
-        activationAnimation: _valueIndicatorAnimation,
-        labelPainter: _valueIndicatorPainter,
-        textDirection: TextDirection.ltr,
-        sizeWithOverflow: _screenSize
+      context,
+      thumbLowerCenter,
+      isDiscrete: (_divisions != null),
+      parentBox: this,
+      sliderTheme: _sliderTheme,
+      value: _lowerValue,
+      enableAnimation: _enableAnimation,
+      activationAnimation: _valueIndicatorAnimation,
+      labelPainter: _valueIndicatorPainter,
+      textDirection: TextDirection.ltr,
     );
 
     _sliderTheme.thumbShape.paint(
-        context,
-        thumbUpperCenter,
-        isDiscrete: (_divisions != null),
-        parentBox: this,
-        sliderTheme: _sliderTheme,
-        value: _upperValue,
-        enableAnimation: _enableAnimation,
-        activationAnimation: _valueIndicatorAnimation,
-        labelPainter: _valueIndicatorPainter,
-        textDirection: TextDirection.ltr,
-        sizeWithOverflow: _screenSize
+      context,
+      thumbUpperCenter,
+      isDiscrete: (_divisions != null),
+      parentBox: this,
+      sliderTheme: _sliderTheme,
+      value: _upperValue,
+      enableAnimation: _enableAnimation,
+      activationAnimation: _valueIndicatorAnimation,
+      labelPainter: _valueIndicatorPainter,
+      textDirection: TextDirection.ltr,
     );
   }
 
@@ -1128,17 +1115,16 @@ class _RenderRangeSlider extends RenderBox {
 
         // Ask the SliderTheme to paint the valueIndicator
         _sliderTheme.valueIndicatorShape.paint(
-            context,
-            thumbCenter,
-            activationAnimation: _valueIndicatorAnimation,
-            enableAnimation: _enableAnimation,
-            isDiscrete: (_divisions != null),
-            labelPainter: _valueIndicatorPainter,
-            parentBox: this,
-            sliderTheme: _sliderTheme,
-            value: value,
-            textDirection: _screenSize
-
+          context,
+          thumbCenter,
+          activationAnimation: _valueIndicatorAnimation,
+          enableAnimation: _enableAnimation,
+          isDiscrete: (_divisions != null),
+          labelPainter: _valueIndicatorPainter,
+          parentBox: this,
+          sliderTheme: _sliderTheme,
+          value: value,
+          textDirection: TextDirection.ltr,
         );
       }
     }
