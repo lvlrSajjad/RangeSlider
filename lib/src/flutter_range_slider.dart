@@ -474,6 +474,8 @@ class _RangeSliderState extends State<RangeSlider>
           ),
     );
 
+    Size _screenSize() => MediaQuery.of(context).size;
+
     return _RangeSliderRenderObjectWidget(
       lowerValue: _unlerp(widget.lowerValue),
       upperValue: _unlerp(widget.upperValue),
@@ -482,6 +484,7 @@ class _RangeSliderState extends State<RangeSlider>
       onChangeStart: _handleChangeStart,
       onChangeEnd: _handleChangeEnd,
       sliderTheme: sliderTheme,
+      screenSize: _screenSize(),
       state: this,
       showValueIndicator: widget.showValueIndicator,
       valueIndicatorMaxDecimals: widget.valueIndicatorMaxDecimals,
@@ -505,6 +508,7 @@ class _RangeSliderRenderObjectWidget extends LeafRenderObjectWidget {
     this.onChangeStart,
     this.onChangeEnd,
     this.sliderTheme,
+    this.screenSize,
     this.state,
     this.showValueIndicator,
     this.valueIndicatorMaxDecimals,
@@ -518,6 +522,7 @@ class _RangeSliderRenderObjectWidget extends LeafRenderObjectWidget {
   final RangeSliderCallback onChangeStart;
   final RangeSliderCallback onChangeEnd;
   final SliderThemeData sliderTheme;
+  final Size screenSize;
   final double lowerValue;
   final double upperValue;
   final int divisions;
@@ -537,6 +542,7 @@ class _RangeSliderRenderObjectWidget extends LeafRenderObjectWidget {
       onChangeStart: onChangeStart,
       onChangeEnd: onChangeEnd,
       sliderTheme: sliderTheme,
+      screenSize: screenSize,
       state: state,
       showValueIndicator: showValueIndicator,
       valueIndicatorMaxDecimals: valueIndicatorMaxDecimals,
@@ -557,6 +563,7 @@ class _RangeSliderRenderObjectWidget extends LeafRenderObjectWidget {
       ..onChangeStart = onChangeStart
       ..onChangeEnd = onChangeEnd
       ..sliderTheme = sliderTheme
+      ..screenSize = screenSize
       ..showValueIndicator = showValueIndicator
       ..valueIndicatorMaxDecimals = valueIndicatorMaxDecimals
       ..touchRadiusExpansionRatio = touchRadiusExpansionRatio
@@ -578,6 +585,7 @@ class _RenderRangeSlider extends RenderBox {
     RangeSliderCallback onChangeStart,
     RangeSliderCallback onChangeEnd,
     SliderThemeData sliderTheme,
+    Size screenSize,
     @required this.state,
     bool showValueIndicator,
     int valueIndicatorMaxDecimals,
@@ -593,6 +601,7 @@ class _RenderRangeSlider extends RenderBox {
     this.onChangeStart = onChangeStart;
     this.onChangeEnd = onChangeEnd;
     this.sliderTheme = sliderTheme;
+    this.screenSize = screenSize;
     this.showValueIndicator = showValueIndicator;
     this.valueIndicatorMaxDecimals = valueIndicatorMaxDecimals;
     this._touchRadiusExpansionRatio = touchRadiusExpansionRatio;
@@ -651,6 +660,7 @@ class _RenderRangeSlider extends RenderBox {
   Animation<double> _valueIndicatorAnimation;
   HorizontalDragGestureRecognizer _drag;
   SliderThemeData _sliderTheme;
+  Size _screenSize;
   bool _showValueIndicator;
   double _touchRadiusExpansionRatio;
   int _valueIndicatorMaxDecimals;
@@ -722,6 +732,14 @@ class _RenderRangeSlider extends RenderBox {
   set sliderTheme(SliderThemeData value) {
     assert(value != null);
     _sliderTheme = value;
+
+    // If we change the theme, we need to repaint
+    markNeedsPaint();
+  }
+
+  set screenSize(Size value) {
+    assert(value != null);
+    _screenSize = value;
 
     // If we change the theme, we need to repaint
     markNeedsPaint();
@@ -1051,6 +1069,7 @@ class _RenderRangeSlider extends RenderBox {
       activationAnimation: _valueIndicatorAnimation,
       labelPainter: _valueIndicatorPainter,
       textDirection: TextDirection.ltr,
+      sizeWithOverflow: _screenSize.isEmpty ? size : _screenSize
     );
 
     _sliderTheme.thumbShape.paint(
@@ -1064,6 +1083,7 @@ class _RenderRangeSlider extends RenderBox {
       activationAnimation: _valueIndicatorAnimation,
       labelPainter: _valueIndicatorPainter,
       textDirection: TextDirection.ltr,
+      sizeWithOverflow: _screenSize.isEmpty ? size : _screenSize
     );
   }
 
@@ -1125,6 +1145,7 @@ class _RenderRangeSlider extends RenderBox {
           sliderTheme: _sliderTheme,
           value: value,
           textDirection: TextDirection.ltr,
+          sizeWithOverflow: _screenSize.isEmpty ? size : _screenSize
         );
       }
     }
