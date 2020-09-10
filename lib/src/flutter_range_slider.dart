@@ -554,6 +554,7 @@ class _RangeSliderRenderObjectWidget extends LeafRenderObjectWidget {
       ..lowerValue = lowerValue
       ..upperValue = upperValue
       ..divisions = divisions
+      ..screenSize = screenSize
       ..onChanged = onChanged
       ..onChangeStart = onChangeStart
       ..onChangeEnd = onChangeEnd
@@ -575,6 +576,7 @@ class _RenderRangeSlider extends RenderBox {
     double lowerValue,
     double upperValue,
     int divisions,
+    Size screenSize,
     RangeSliderCallback onChanged,
     RangeSliderCallback onChangeStart,
     RangeSliderCallback onChangeEnd,
@@ -588,6 +590,7 @@ class _RenderRangeSlider extends RenderBox {
   }) {
     // Initialization
     this.divisions = divisions;
+    this.screenSize = screenSize;
     this.lowerValue = lowerValue;
     this.upperValue = upperValue;
     this.onChanged = onChanged;
@@ -647,6 +650,7 @@ class _RenderRangeSlider extends RenderBox {
   double _lowerValue;
   double _upperValue;
   int _divisions;
+  Size _screenSize;
   Animation<double> _overlayAnimation;
   Animation<double> _enableAnimation;
   Animation<double> _valueIndicatorAnimation;
@@ -684,6 +688,11 @@ class _RenderRangeSlider extends RenderBox {
     _divisions = value;
 
     // If we change the value, we need to repaint
+    markNeedsPaint();
+  }
+
+  set screenSize(Size value) {
+    _screenSize = value;
     markNeedsPaint();
   }
 
@@ -1053,9 +1062,7 @@ class _RenderRangeSlider extends RenderBox {
         activationAnimation: _valueIndicatorAnimation,
         labelPainter: _valueIndicatorPainter,
         textDirection: TextDirection.ltr,
-        sizeWithOverflow: MediaQuery
-            .of(context)
-            .size
+        sizeWithOverflow: _screenSize
     );
 
     _sliderTheme.thumbShape.paint(
@@ -1069,9 +1076,7 @@ class _RenderRangeSlider extends RenderBox {
         activationAnimation: _valueIndicatorAnimation,
         labelPainter: _valueIndicatorPainter,
         textDirection: TextDirection.ltr,
-        sizeWithOverflow: MediaQuery
-            .of(context)
-            .size
+        sizeWithOverflow: _screenSize
     );
   }
 
@@ -1132,10 +1137,7 @@ class _RenderRangeSlider extends RenderBox {
             parentBox: this,
             sliderTheme: _sliderTheme,
             value: value,
-            textDirection: TextDirection.ltr,
-            sizeWithOverflow: MediaQuery
-                .of(context)
-                .size
+            textDirection: _screenSize
 
         );
       }
